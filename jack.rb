@@ -8,6 +8,8 @@
 
 require 'pry'
 
+begin
+
 def calculate_card_total(cvalue)
   
   arr = cvalue.map{|c| c[1]}
@@ -27,7 +29,7 @@ def calculate_card_total(cvalue)
   end
   
   # Ace Conversion When Above 21
-  arr.select{|c| c=="A"}.count.times do
+  arr.select{|c| c =="A"}.count.times do
     if total > 21
       total -= 10
     end
@@ -117,5 +119,10 @@ else
   puts "Congrats, You Won!"
 end
 
+puts "Do You Want To Play Again? (Y/N) "
+
+x = gets.chomp
+
+end while x == "Y" || x == "y"
 
 
