@@ -13,14 +13,15 @@ def calculate_cards(cards)
   player_cards.map {|x,y| [x, sum+=y]}
 end
 
+def check_winner
+
+end
+
 
 
 puts "Welcome to Black Jack!"
 
 deck_of_cards =[]
-
-
-
 
 suits = ['H', 'D', 'C', 'S']
 cvalue = ['2', '3', '4', '5', '6', '7', '8', '9', '10',]
@@ -40,9 +41,55 @@ computer_cards << deck_of_cards.pop
 
 
 puts " Dealer Is Showing: #{computer_cards[1]}"
-puts " Your Cards Are: #{player_cards}" 
-puts "They total  #{(player_cards.map{|c| c[1].to_i}).inject(:+)}"
+puts ""
+puts " Your Cards Are: #{player_cards}" "They total  #{(player_cards.map{|c| c[1].to_i}).inject(:+)}"
+puts ""
+puts "What Would You Like To Do? Hit(H) or Stay(S)"
+decision = gets.chomp
 
+if decision == "H" || decision == "h"
+
+  begin
+  player_cards << deck_of_cards.pop
+  puts " Dealer Is Showing: #{computer_cards[1]}"
+  puts ""
+  puts " Your Cards Are: #{player_cards} They total  #{(player_cards.map{|c| c[1].to_i}).inject(:+)}"
+  puts ""
+    if ((player_cards.map{|c| c[1].to_i}).inject(:+)) < 21
+    puts "What Would You Like To Do? Hit(H) or Stay(S)"
+    decision = gets.chomp
+    else
+    puts "You Busted!"
+    end
+  end while decision == "H" || decision == "h" && ((player_cards.map{|c| c[1].to_i}).inject(:+)) < 21 
+
+else decision =="S" || decision =="s" 
+    if ((computer_cards.map{|c| c[1].to_i}).inject(:+)) < 17  
+      begin 
+       computer_cards << deck_of_cards.pop
+       puts "Dealer Now Has #{computer_cards}"
+      end while ((computer_cards.map{|c| c[1].to_i}).inject(:+)) < 17
+    else
+     puts "Dealer Stays"
+    end
+end 
+
+
+
+  puts ""
+  puts " Your Cards Are: #{player_cards}"
+  puts ''
+  puts "The Dealer Has #{(computer_cards.map{|c| c[1].to_i}).inject(:+)}"
+  puts "You Have #{(player_cards.map{|c| c[1].to_i}).inject(:+)}"
+
+
+    if (computer_cards.map{|c| c[1].to_i}).inject(:+) > 21
+      puts "Dealer Busts, You Win! "
+    elsif (computer_cards.map{|c| c[1].to_i}).inject(:+) > (player_cards.map{|c| c[1].to_i}).inject(:+)
+    puts "Sorry, Dealer Won"
+    else
+    puts "Congrats, You Won!"
+    end
 
 
 
