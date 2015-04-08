@@ -8,16 +8,6 @@
 
 require 'pry'
 
-def calculate_cards(cards)
-  cards = player_cards
-  player_cards.map {|x,y| [x, sum+=y]}
-end
-
-def check_winner
-
-end
-
-
 
 puts "Welcome to Black Jack!"
 
@@ -38,7 +28,7 @@ computer_cards << deck_of_cards.pop
 player_cards << deck_of_cards.pop
 computer_cards << deck_of_cards.pop
 
-
+# Hit or Stay Decision by Player
 
 puts " Dealer Is Showing: #{computer_cards[1]}"
 puts ""
@@ -47,8 +37,9 @@ puts ""
 puts "What Would You Like To Do? Hit(H) or Stay(S)"
 decision = gets.chomp
 
-if decision == "H" || decision == "h"
+# Decision Logic
 
+if decision == "H" || decision == "h"
   begin
   player_cards << deck_of_cards.pop
   puts " Dealer Is Showing: #{computer_cards[1]}"
@@ -62,34 +53,37 @@ if decision == "H" || decision == "h"
     puts "You Busted!"
     end
   end while decision == "H" || decision == "h" && ((player_cards.map{|c| c[1].to_i}).inject(:+)) < 21 
+end
+ 
+# Dealer Hand Logic
 
-else decision =="S" || decision =="s" 
-    if ((computer_cards.map{|c| c[1].to_i}).inject(:+)) < 17  
-      begin 
-       computer_cards << deck_of_cards.pop
-       puts "Dealer Now Has #{computer_cards}"
-      end while ((computer_cards.map{|c| c[1].to_i}).inject(:+)) < 17
-    else
+if ((player_cards.map{|c| c[1].to_i}).inject(:+)) < 21 && ((computer_cards.map{|c| c[1].to_i}).inject(:+)) < 17  
+  begin 
+    computer_cards << deck_of_cards.pop
+    puts "Dealer Now Has #{computer_cards}"
+  end while ((computer_cards.map{|c| c[1].to_i}).inject(:+)) < 17
+  else
      puts "Dealer Stays"
-    end
-end 
+end
+
+# Determine Hand Winner
+
+puts ""
+puts " Dealer Cards Are: #{computer_cards}"
+puts ""
+puts " Your Cards Are: #{player_cards}"
+puts ''
+puts "The Dealer Has #{(computer_cards.map{|c| c[1].to_i}).inject(:+)}"
+puts "You Have #{(player_cards.map{|c| c[1].to_i}).inject(:+)}"
 
 
-
-  puts ""
-  puts " Your Cards Are: #{player_cards}"
-  puts ''
-  puts "The Dealer Has #{(computer_cards.map{|c| c[1].to_i}).inject(:+)}"
-  puts "You Have #{(player_cards.map{|c| c[1].to_i}).inject(:+)}"
-
-
-    if (computer_cards.map{|c| c[1].to_i}).inject(:+) > 21
-      puts "Dealer Busts, You Win! "
-    elsif (computer_cards.map{|c| c[1].to_i}).inject(:+) > (player_cards.map{|c| c[1].to_i}).inject(:+)
-    puts "Sorry, Dealer Won"
-    else
-    puts "Congrats, You Won!"
-    end
+if (computer_cards.map{|c| c[1].to_i}).inject(:+) > 21
+  puts "Dealer Busts, You Win! "
+elsif (computer_cards.map{|c| c[1].to_i}).inject(:+) > (player_cards.map{|c| c[1].to_i}).inject(:+)
+  puts "Sorry, Dealer Won"
+else
+  puts "Congrats, You Won!"
+end
 
 
 
