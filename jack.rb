@@ -24,7 +24,14 @@ def calculate_card_total(cvalue)
       total += 10
     else total += value.to_i
     end
-  end  
+  end
+  
+  # Ace Conversion When Above 21
+  arr.select{|c| c=="A"}.count.times do
+    if total > 21
+      total -= 10
+    end
+  end
   
   total
 end
