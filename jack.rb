@@ -8,13 +8,33 @@
 
 require 'pry'
 
+def calculate_card_total(cvalue)
+  
+  arr = cvalue.map{|c| c[1]}
+  
+  total = 0
+  arr.each do |value|
+    if value == "A"
+      total += 11
+    elsif value == "J"
+      total += 10
+    elsif value == "Q"
+      total += 10
+    elsif value == "K"
+      total += 10
+    else total += value.to_i
+    end
+  end  
+  
+  total
+end
 
 puts "Welcome to Black Jack!"
 
 deck_of_cards =[]
 
 suits = ['H', 'D', 'C', 'S']
-cvalue = ['2', '3', '4', '5', '6', '7', '8', '9', '10',]
+cvalue = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 deck_of_cards = suits.product(cvalue)
 deck_of_cards.shuffle!
 
@@ -32,7 +52,7 @@ computer_cards << deck_of_cards.pop
 
 puts " Dealer Is Showing: #{computer_cards[1]}"
 puts ""
-puts " Your Cards Are: #{player_cards}" "They total  #{(player_cards.map{|c| c[1].to_i}).inject(:+)}"
+puts " Your Cards Are: #{player_cards}" "They total  #{calculate_card_total(player_cards)}"
 puts ""
 puts "What Would You Like To Do? Hit(H) or Stay(S)"
 decision = gets.chomp
@@ -44,25 +64,29 @@ if decision == "H" || decision == "h"
   player_cards << deck_of_cards.pop
   puts " Dealer Is Showing: #{computer_cards[1]}"
   puts ""
-  puts " Your Cards Are: #{player_cards} They total  #{(player_cards.map{|c| c[1].to_i}).inject(:+)}"
+  puts " Your Cards Are: #{player_cards} They total  #{calculate_card_total(player_cards)}"
   puts ""
-    if ((player_cards.map{|c| c[1].to_i}).inject(:+)) < 21
+    
+    if calculate_card_total(player_cards) == 21
+    puts "You Got 21, You Win!"
+    elsif calculate_card_total(player_cards) < 21
     puts "What Would You Like To Do? Hit(H) or Stay(S)"
     decision = gets.chomp
     else
     puts "You Busted!"
     end
-  end while decision == "H" || decision == "h" && ((player_cards.map{|c| c[1].to_i}).inject(:+)) < 21 
+  end while decision == "H" || decision == "h" && (calculate_card_total(player_cards)) < 21 
 end
  
 # Dealer Hand Logic
-
-if ((player_cards.map{|c| c[1].to_i}).inject(:+)) < 21 && ((computer_cards.map{|c| c[1].to_i}).inject(:+)) < 17  
+if (calculate_card_total(player_cards)) > 21
+  
+elsif (calculate_card_total(player_cards)) < 21 && (calculate_card_total(computer_cards)) < 17  
   begin 
     computer_cards << deck_of_cards.pop
     puts "Dealer Now Has #{computer_cards}"
-  end while ((computer_cards.map{|c| c[1].to_i}).inject(:+)) < 17
-  else
+  end while (calculate_card_total(computer_cards)) < 17
+else
      puts "Dealer Stays"
 end
 
@@ -73,13 +97,14 @@ puts " Dealer Cards Are: #{computer_cards}"
 puts ""
 puts " Your Cards Are: #{player_cards}"
 puts ''
-puts "The Dealer Has #{(computer_cards.map{|c| c[1].to_i}).inject(:+)}"
-puts "You Have #{(player_cards.map{|c| c[1].to_i}).inject(:+)}"
+puts "The Dealer Has #{(calculate_card_total(computer_cards))}"
+puts "You Have #{(calculate_card_total(player_cards))}"
 
-
-if (computer_cards.map{|c| c[1].to_i}).inject(:+) > 21
+if calculate_card_total(player_cards) > 21
+  puts "Sorry, You Busted, Dealer Won"
+elsif (calculate_card_total(computer_cards)) > 21
   puts "Dealer Busts, You Win! "
-elsif (computer_cards.map{|c| c[1].to_i}).inject(:+) > (player_cards.map{|c| c[1].to_i}).inject(:+)
+elsif (calculate_card_total(computer_cards)) > (calculate_card_total(player_cards))
   puts "Sorry, Dealer Won"
 else
   puts "Congrats, You Won!"
