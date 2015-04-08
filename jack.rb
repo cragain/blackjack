@@ -113,6 +113,8 @@ if calculate_card_total(player_cards) > 21
   puts "Sorry, You Busted, Dealer Won"
 elsif (calculate_card_total(computer_cards)) > 21
   puts "Dealer Busts, You Win! "
+elsif (calculate_card_total(computer_cards)) == (calculate_card_total(player_cards))
+  puts "Its A Tie!"
 elsif (calculate_card_total(computer_cards)) > (calculate_card_total(player_cards))
   puts "Sorry, Dealer Won"
 else
